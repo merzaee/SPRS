@@ -17,16 +17,7 @@ $astat = array("Not Yet Started","On-going","Closed");
     <div class="card">
       <div class="card-body">
         Welcome <?php echo $_SESSION['login_name']. '! '.$_SESSION['login_view_folder'];
-			if($_SESSION['login_user_type']==1){
-				echo 'you have full access '. $_SESSION['login_user_type'];
-			}elseif($_SESSION['login_user_type']==2){
-				echo 'you have partial access'. $_SESSION['login_user_type'];
-			}elseif($_SESSION['login_user_type']==3){
-				echo 'you have limited access'.$_SESSION['login_user_type'];
-			}else{
-				echo 'the other type of user '. $_SESSION['login_user_type'];
-			}
-			echo $_SESSION['login_type'];
+			
 		?>
         <br>
         <div class="col-md-5">

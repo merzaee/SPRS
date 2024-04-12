@@ -2,6 +2,7 @@
     <div class="dropdown">
    	<a href="./" class="brand-link">
         <h3 class="text-center p-0 m-0"><b>Admin Panel</b></h3>
+
     </a>
       
     </div>
@@ -16,7 +17,35 @@
               </p>
             </a>
           </li>
+
           <li class="nav-item dropdown">
+            <a href="./index.php?page=admin_list" class="nav-link nav-admin_list">
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+               Administrators
+              </p>
+            </a>
+          </li> 
+
+          <li class="nav-item dropdown">
+            <a href="./index.php?page=reviewer_list" class="nav-link nav-reviewer_list">
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+               Reviewers
+              </p>
+            </a>
+          </li> 
+
+          <li class="nav-item dropdown">
+            <a href="./index.php?page=student_list" class="nav-link nav-student_list">
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+               Students
+              </p>
+            </a>
+          </li> 
+
+		      <li class="nav-item dropdown">
             <a href="./index.php?page=subject_list" class="nav-link nav-subject_list">
               <i class="nav-icon fas fa-th-list"></i>
               <p>
@@ -32,85 +61,13 @@
               </p>
             </a>
           </li> 
-         
-        
           <li class="nav-item dropdown">
             <a href="./index.php?page=criteria_list" class="nav-link nav-criteria_list">
               <i class="nav-icon fas fa-list-alt"></i>
               <p>
-                Review Critria
+                Evaluation Critria
               </p>
             </a>
-          </li> 
-          <li class="nav-item">
-            <a href="#" class="nav-link nav-edit_faculty">
-              <i class="nav-icon fas fa-user-friends"></i>
-              <p>
-                Reviewers
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.php?page=new_faculty" class="nav-link nav-new_faculty tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>Add New</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.php?page=faculty_list" class="nav-link nav-faculty_list tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>List</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link nav-edit_student">
-              <i class="nav-icon fa ion-ios-people-outline"></i>
-              <p>
-                 Students
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.php?page=new_student" class="nav-link nav-new_student tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>Add New</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.php?page=student_list" class="nav-link nav-student_list tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>List</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-        
-          <li class="nav-item">
-            <a href="#" class="nav-link nav-edit_user">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Administrators
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.php?page=new_user" class="nav-link nav-new_user tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>Add New</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.php?page=user_list" class="nav-link nav-user_list tree-item">
-                  <i class="fas fa-angle-right nav-icon"></i>
-                  <p>List</p>
-                </a>
-              </li>
-            </ul>
           </li>
         </ul>
       </nav>
