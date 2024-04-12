@@ -31,13 +31,7 @@ Class Action {
 			  $_SESSION['login_type'] = $_SESSION['login_user_type'];
 			//$_SESSION['login_view_folder'] = $type2[$login].'/';
 			  $_SESSION['login_view_folder'] = $type2[$_SESSION['login_type']].'/';
-			$academic = $this->db->query("SELECT * FROM academic_list where is_default = 1 ");
-			if($academic->num_rows > 0){
-				foreach($academic->fetch_array() as $k => $v){
-				if(!is_numeric($k))
-					$_SESSION['academic'][$k] = $v;
-				}
-			}
+			
 		return 1;
 		}else{
 			return 2;
@@ -82,7 +76,7 @@ Class Action {
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
-			exit;
+	
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
 			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
@@ -90,14 +84,17 @@ Class Action {
 			$data .= ", avatar = '$fname' ";
 
 		}
+		
 		if(empty($id)){
-			$save = $this->db->query("INSERT INTO users set $data");
+			$save = $this->db->query("INSERT INTO users set $data , date_created = CURRENT_TIMESTAMP"); 
 		}else{
 			$save = $this->db->query("UPDATE users set $data where id = $id");
 		}
-
+		$_SESSION['testing'] = $data;
 		if($save){
 			return 1;
+		}else{
+			return 3;
 		}
 	}
 	function signup(){
@@ -122,7 +119,7 @@ Class Action {
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
-			exit;
+			
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
 			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
@@ -168,7 +165,7 @@ Class Action {
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
-			exit;
+		
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
 			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
@@ -476,12 +473,12 @@ Class Action {
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
-			exit;
+			
 		}
 		$check = $this->db->query("SELECT * FROM users where id ='$school_id' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 3;
-			exit;
+		
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
 			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
@@ -524,7 +521,7 @@ Class Action {
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
-			exit;
+			
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
 			$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];

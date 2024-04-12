@@ -11,14 +11,12 @@ function ordinal_suffix1($num){
     }
     return $num.'th';
 }
-$astat = array("Not Yet Started","On-going","Closed");
  ?>
  <div class="col-12">
     <div class="card">
       <div class="card-body">
-        Welcome <?php echo $_SESSION['login_name']. '! '.$_SESSION['login_view_folder'];
-			
-		?>
+        Welcome <?php echo $_SESSION['login_name'];
+		?>!
         <br>
         <div class="col-md-5">
        
@@ -67,7 +65,7 @@ $astat = array("Not Yet Started","On-going","Closed");
           <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM class_list")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM paper")->num_rows; ?></h3>
 
                 <p>Total Papers</p>
               </div>
@@ -79,7 +77,7 @@ $astat = array("Not Yet Started","On-going","Closed");
 		   <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM class_list")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM users")->num_rows; ?></h3>
 
                 <p>Total Pending Papers</p>
               </div>
@@ -91,7 +89,7 @@ $astat = array("Not Yet Started","On-going","Closed");
 		   <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM class_list")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM users")->num_rows; ?></h3>
 
                 <p>Total Reviewed Papers</p>
               </div>
