@@ -33,11 +33,13 @@
 		                      Action
 		                    </button>
 		                    <div class="dropdown-menu" style="">
-		                      <a class="dropdown-item view_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
+							<a class="dropdown-item view_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item view_admin" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
 		                      <div class="dropdown-divider"></div>
-		                      <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $row['id'] ?>">Edit</a>
+		                    <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $row['id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>
-		                      <a class="dropdown-item delete_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>
+		                    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>
 		                    </div>
 						</td>
 					</tr>	
@@ -55,7 +57,7 @@
 	$('.delete_user').click(function(){
 	_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
 	})
-		$('#list').dataTable()
+	$('#list').dataTable()
 	})
 	function delete_user($id){
 		start_load()
