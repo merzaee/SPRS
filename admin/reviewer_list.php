@@ -22,7 +22,25 @@
 				<tbody>
 					<?php
 					$i = 1;
-					$qry = $conn->query("SELECT users.id, concat(firstname,' ',lastname) as name, users.email, users.password, users.avatar, users.date_created, users.status, users.user_type, users.knowledge_areas, COUNT(paper.p_id) as total_shared FROM users LEFT JOIN paper ON users.id = paper.u_id WHERE users.user_type = 2 GROUP BY users.id;");
+					$qry = $conn->query("SELECT
+					users.id,
+					concat( firstname, ' ', lastname ) AS name,
+					users.email,
+					users.PASSWORD,
+					users.avatar,
+					users.date_created,
+					users.STATUS,
+					users.user_type,
+					users.knowledge_areas,
+					COUNT( files.fileID ) AS total_shared
+				FROM
+					users
+					LEFT JOIN files ON users.id = files.userID
+					LEFT JOIN fileshare ON files.fileID = fileshare.fileID 
+				WHERE
+					users.user_type = 2 
+				GROUP BY
+					users.id");
 
 					while($row= $qry->fetch_assoc()):
 					?>

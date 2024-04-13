@@ -1,256 +1,292 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Apr 12, 2024 at 08:09 PM
--- Server version: 8.3.0
--- PHP Version: 8.2.12
+/*
+ Navicat Premium Data Transfer
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 80300
+ Source Host           : localhost:3306
+ Source Schema         : sprs
 
+ Target Server Type    : MySQL
+ Target Server Version : 80300
+ File Encoding         : 65001
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+ Date: 14/04/2024 00:01:56
+ 
+ default user:
+	email: admin@admin.com
+	password: admin
+*/
 
---
--- Database: `sprs`
---
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Table structure for criteria
+-- ----------------------------
+DROP TABLE IF EXISTS `criteria`;
+CREATE TABLE `criteria`  (
+  `criteria1` bit(1) NOT NULL DEFAULT b'0',
+  `criteria2` bit(1) NOT NULL,
+  `criteria3` bit(1) NULL DEFAULT NULL,
+  `criteria4` bit(1) NULL DEFAULT NULL,
+  `criteria5` bit(1) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Table structure for table `evaluation_answers`
---
+-- ----------------------------
+-- Records of criteria
+-- ----------------------------
 
-CREATE TABLE `evaluation_answers` (
-  `evaluation_id` int NOT NULL,
-  `question_id` int NOT NULL,
-  `rate` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- ----------------------------
+-- Table structure for files
+-- ----------------------------
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE `files`  (
+  `fileID` int NOT NULL AUTO_INCREMENT,
+  `userID` int NULL DEFAULT NULL,
+  `Filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `uploadDate` datetime NULL DEFAULT NULL,
+  `fileURL` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `key_words` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `status` enum('public','private') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`fileID`) USING BTREE,
+  INDEX `userID`(`userID`) USING BTREE,
+  CONSTRAINT `files_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `evaluation_answers`
---
+-- ----------------------------
+-- Records of files
+-- ----------------------------
+INSERT INTO `files` VALUES (1, 14, 'thesis', '2024-04-12 23:34:43', NULL, NULL, 'public');
 
-INSERT INTO `evaluation_answers` (`evaluation_id`, `question_id`, `rate`) VALUES
-(1, 1, 5),
-(1, 6, 4),
-(1, 3, 5),
-(2, 1, 5),
-(2, 6, 5),
-(2, 3, 4),
-(3, 1, 5),
-(3, 6, 5),
-(3, 3, 4);
+-- ----------------------------
+-- Table structure for fileshare
+-- ----------------------------
+DROP TABLE IF EXISTS `fileshare`;
+CREATE TABLE `fileshare`  (
+  `shareID` int NOT NULL AUTO_INCREMENT,
+  `fileID` int NOT NULL,
+  `userID` int NULL DEFAULT NULL,
+  `firstComment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`shareID`) USING BTREE,
+  INDEX `userID`(`userID`) USING BTREE,
+  INDEX `fileID`(`fileID`) USING BTREE,
+  CONSTRAINT `fileshare_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fileshare_ibfk_2` FOREIGN KEY (`fileID`) REFERENCES `files` (`fileID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of fileshare
+-- ----------------------------
+INSERT INTO `fileshare` VALUES (1, 1, 7, 'please check it');
 
---
--- Table structure for table `evaluation_list`
---
+-- ----------------------------
+-- Table structure for review_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `review_comment`;
+CREATE TABLE `review_comment`  (
+  `commentID` int NOT NULL,
+  `reviewID` int NOT NULL,
+  `userID` int NULL DEFAULT NULL,
+  `parentCommentID` int NULL DEFAULT NULL,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `commentDate` datetime NOT NULL,
+  PRIMARY KEY (`commentID`) USING BTREE,
+  INDEX `reviewID`(`reviewID`) USING BTREE,
+  INDEX `userID`(`userID`) USING BTREE,
+  INDEX `parentCommentID`(`parentCommentID`) USING BTREE,
+  CONSTRAINT `review_comment_ibfk_1` FOREIGN KEY (`reviewID`) REFERENCES `reviews` (`reviewID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_comment_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `review_comment_ibfk_3` FOREIGN KEY (`parentCommentID`) REFERENCES `review_comment` (`commentID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
-CREATE TABLE `evaluation_list` (
-  `evaluation_id` int NOT NULL,
-  `academic_id` int NOT NULL,
-  `class_id` int NOT NULL,
-  `student_id` int NOT NULL,
-  `subject_id` int NOT NULL,
-  `faculty_id` int NOT NULL,
-  `restriction_id` int NOT NULL,
-  `date_taken` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- ----------------------------
+-- Records of review_comment
+-- ----------------------------
+INSERT INTO `review_comment` VALUES (1, 1, 12, NULL, 'you are rigth', '2024-04-13 23:12:15');
 
---
--- Dumping data for table `evaluation_list`
---
+-- ----------------------------
+-- Table structure for review_comment_like
+-- ----------------------------
+DROP TABLE IF EXISTS `review_comment_like`;
+CREATE TABLE `review_comment_like`  (
+  `commentID` int NOT NULL,
+  `userID` int NOT NULL,
+  `likeDate` datetime NOT NULL,
+  INDEX `userID`(`userID`) USING BTREE,
+  UNIQUE INDEX `uniq_user_comment_like`(`commentID`, `userID`) USING BTREE,
+  CONSTRAINT `review_comment_like_ibfk_1` FOREIGN KEY (`commentID`) REFERENCES `review_comment` (`commentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_comment_like_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `evaluation_list` (`evaluation_id`, `academic_id`, `class_id`, `student_id`, `subject_id`, `faculty_id`, `restriction_id`, `date_taken`) VALUES
-(1, 3, 1, 1, 1, 1, 8, '2020-12-15 16:26:51'),
-(2, 3, 2, 2, 2, 1, 9, '2020-12-15 16:33:37'),
-(3, 3, 1, 3, 1, 1, 8, '2020-12-15 20:18:49');
+-- ----------------------------
+-- Records of review_comment_like
+-- ----------------------------
+INSERT INTO `review_comment_like` VALUES (1, 7, '2024-04-13 23:17:11');
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Table structure for review_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `review_detail`;
+CREATE TABLE `review_detail`  (
+  `reviewID` int NOT NULL,
+  `reviewerID` int NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `datetime` datetime NOT NULL,
+  UNIQUE INDEX `reviewID`(`reviewID`, `reviewerID`) USING BTREE,
+  INDEX `reviewerID`(`reviewerID`) USING BTREE,
+  CONSTRAINT `review_detail_ibfk_1` FOREIGN KEY (`reviewID`) REFERENCES `reviews` (`reviewID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_detail_ibfk_2` FOREIGN KEY (`reviewerID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Table structure for table `paper`
---
+-- ----------------------------
+-- Records of review_detail
+-- ----------------------------
 
-CREATE TABLE `paper` (
-  `p_id` int NOT NULL,
-  `u_id` int DEFAULT NULL,
-  `p_name` varchar(255) NOT NULL,
-  `p_note` text,
-  `p_date` datetime DEFAULT NULL,
-  `p_url` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- ----------------------------
+-- Table structure for review_like
+-- ----------------------------
+DROP TABLE IF EXISTS `review_like`;
+CREATE TABLE `review_like`  (
+  `reviewid` int NOT NULL,
+  `userID` int NOT NULL,
+  `likeDate` datetime NULL DEFAULT NULL,
+  INDEX `userID`(`userID`) USING BTREE,
+  UNIQUE INDEX `uniq_user_review_like`(`reviewid`, `userID`) USING BTREE,
+  CONSTRAINT `review_like_ibfk_1` FOREIGN KEY (`reviewid`) REFERENCES `reviews` (`reviewID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_like_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `paper`
---
+-- ----------------------------
+-- Records of review_like
+-- ----------------------------
 
-INSERT INTO `paper` (`p_id`, `u_id`, `p_name`, `p_note`, `p_date`, `p_url`) VALUES
-(1, 3, 'my paper about cryptography', 'please have a review on its contents ', '2024-04-12 16:01:23', 'C:\\Users\\Merzaee\\Desktop\\sqrs\\Flow_Diagram_Draft.png');
+-- ----------------------------
+-- Table structure for review_notification
+-- ----------------------------
+DROP TABLE IF EXISTS `review_notification`;
+CREATE TABLE `review_notification`  (
+  `reviewID` int NOT NULL,
+  `userID` int NOT NULL,
+  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` enum('pending','read') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `datetime` datetime NOT NULL,
+  UNIQUE INDEX `reviewID`(`reviewID`, `userID`) USING BTREE,
+  INDEX `userID`(`userID`) USING BTREE,
+  CONSTRAINT `review_notification_ibfk_1` FOREIGN KEY (`reviewID`) REFERENCES `reviews` (`reviewID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_notification_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Records of review_notification
+-- ----------------------------
 
---
--- Table structure for table `question_list`
---
+-- ----------------------------
+-- Table structure for review_score
+-- ----------------------------
+DROP TABLE IF EXISTS `review_score`;
+CREATE TABLE `review_score`  (
+  `reviewID` int NOT NULL,
+  `userID` int NOT NULL,
+  `score` tinyint NOT NULL,
+  `score_date` datetime NOT NULL,
+  UNIQUE INDEX `reviewID`(`reviewID`, `userID`) USING BTREE,
+  INDEX `userID`(`userID`) USING BTREE,
+  CONSTRAINT `review_score_ibfk_1` FOREIGN KEY (`reviewID`) REFERENCES `reviews` (`reviewID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_score_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
-CREATE TABLE `question_list` (
-  `id` int NOT NULL,
-  `academic_id` int NOT NULL,
-  `question` text NOT NULL,
-  `order_by` int NOT NULL,
-  `criteria_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- ----------------------------
+-- Records of review_score
+-- ----------------------------
 
---
--- Dumping data for table `question_list`
---
+-- ----------------------------
+-- Table structure for reviews
+-- ----------------------------
+DROP TABLE IF EXISTS `reviews`;
+CREATE TABLE `reviews`  (
+  `reviewID` int NOT NULL,
+  `shareID` int NULL DEFAULT NULL,
+  `reviewerID` int NULL DEFAULT NULL,
+  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `status` enum('pending','accepted','rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'pending',
+  `creationDate` datetime NULL DEFAULT NULL,
+  `ownderID` int NULL DEFAULT NULL,
+  PRIMARY KEY (`reviewID`) USING BTREE,
+  INDEX `shareID`(`shareID`) USING BTREE,
+  INDEX `reviewerID`(`reviewerID`) USING BTREE,
+  INDEX `ownderID`(`ownderID`) USING BTREE,
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`shareID`) REFERENCES `fileshare` (`shareID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewerID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`ownderID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
-INSERT INTO `question_list` (`id`, `academic_id`, `question`, `order_by`, `criteria_id`) VALUES
-(1, 3, 'Sample Question', 0, 1),
-(3, 3, 'Test', 2, 2),
-(5, 0, 'Question 101', 0, 1),
-(6, 3, 'Sample 101', 4, 1);
+-- ----------------------------
+-- Records of reviews
+-- ----------------------------
+INSERT INTO `reviews` VALUES (1, 1, 7, 'its ok', 'pending', '2024-04-13 23:15:25', 14);
 
--- --------------------------------------------------------
+-- ----------------------------
+-- Table structure for share_notofication
+-- ----------------------------
+DROP TABLE IF EXISTS `share_notofication`;
+CREATE TABLE `share_notofication`  (
+  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `userID` int NOT NULL COMMENT 'who will recieve this notification?',
+  `status` enum('New','Read') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `shareID` int NULL DEFAULT NULL,
+  UNIQUE INDEX `userID`(`userID`, `shareID`) USING BTREE,
+  INDEX `share_notofication_ibfk_2`(`shareID`) USING BTREE,
+  CONSTRAINT `share_notofication_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `share_notofication_ibfk_2` FOREIGN KEY (`shareID`) REFERENCES `fileshare` (`shareID`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Table structure for table `system_settings`
---
+-- ----------------------------
+-- Records of share_notofication
+-- ----------------------------
 
-CREATE TABLE `system_settings` (
-  `id` int NOT NULL,
-  `name` text NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `contact` varchar(20) NOT NULL,
-  `address` text NOT NULL,
-  `cover_img` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- ----------------------------
+-- Table structure for system_settings
+-- ----------------------------
+DROP TABLE IF EXISTS `system_settings`;
+CREATE TABLE `system_settings`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `cover_img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `system_settings`
---
+-- ----------------------------
+-- Records of system_settings
+-- ----------------------------
+INSERT INTO `system_settings` VALUES (1, 'Student Peer Review System', 'info@sample.comm', '+6948 8542 623', '2102  Caldwell Road, Rochester, New York, 14608', '');
 
-INSERT INTO `system_settings` (`id`, `name`, `email`, `contact`, `address`, `cover_img`) VALUES
-(1, 'Student Pair Review System', 'info@sample.comm', '+6948 8542 623', '2102  Caldwell Road, Rochester, New York, 14608', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `firstname` varchar(200) NOT NULL,
-  `lastname` varchar(200) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `password` text NOT NULL,
-  `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `lastname` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('Active','Deactive') NOT NULL,
-  `user_type` tinyint(1) NOT NULL DEFAULT '3',
-  `knowledge_areas` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `status` enum('Active','Deactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_type` tinyint(1) NOT NULL DEFAULT 3,
+  `knowledge_areas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `users`
---
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES (7, 'Amir', 'Amiri', 'ahmadi@gmail.com', 'ac627ab1ccbdb62ec96e702f07f6425b', NULL, '2024-04-12 19:45:01', 'Active', 3, 'IS and IT, Science and technology');
+INSERT INTO `users` VALUES (12, 'Reviewer2', 'of the faculty', 'reviewer2@gmail.com', 'f899139df5e1059396431415e770c6dd', NULL, '2024-04-13 17:16:21', 'Active', 2, '');
+INSERT INTO `users` VALUES (14, 'Admin', '', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', NULL, '2024-04-13 18:17:10', 'Active', 1, 'Administration');
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `avatar`, `date_created`, `status`, `user_type`, `knowledge_areas`) VALUES
-(1, 'System', 'Administrator', 'admin@admin.com', '0192023a7bbd73250516f069df18b500', '1712939760_434030139_10131835602564154_4564829601035200041_n.jpg', '2020-11-26 10:57:04', 'Active', 1, ''),
-(2, 'Reviewer', '', 'reviewer@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', '2024-04-11 21:26:52', 'Active', 2, NULL),
-(3, 'student', '', 'student@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', '2024-04-11 21:27:31', 'Active', 3, NULL),
-(7, 'Amir', 'Amiri', 'ahmadi@gmail.com', 'ac627ab1ccbdb62ec96e702f07f6425b', NULL, '2024-04-12 19:45:01', 'Active', 3, '');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `evaluation_list`
---
-ALTER TABLE `evaluation_list`
-  ADD PRIMARY KEY (`evaluation_id`);
-
---
--- Indexes for table `paper`
---
-ALTER TABLE `paper`
-  ADD PRIMARY KEY (`p_id`),
-  ADD KEY `u_id` (`u_id`);
-
---
--- Indexes for table `question_list`
---
-ALTER TABLE `question_list`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `system_settings`
---
-ALTER TABLE `system_settings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `evaluation_list`
---
-ALTER TABLE `evaluation_list`
-  MODIFY `evaluation_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `paper`
---
-ALTER TABLE `paper`
-  MODIFY `p_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `question_list`
---
-ALTER TABLE `question_list`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `system_settings`
---
-ALTER TABLE `system_settings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `paper`
---
-ALTER TABLE `paper`
-  ADD CONSTRAINT `paper_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+SET FOREIGN_KEY_CHECKS = 1;
