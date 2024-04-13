@@ -20,19 +20,17 @@ Class Action {
 		$type = 'users';
 		$type2 = array("","admin","reviewer","student");
 		$qry = $this->db->query("SELECT *,concat(firstname,' ',lastname) as name FROM users where email = '".$email."' and password = '".md5($password)."'  ");
-		//$_SESSION['login_view_folder'] ='';
+		
 		if($qry->num_rows > 0){
 			foreach ($qry->fetch_array() as $key => $value) {
 				if($key != 'password' && !is_numeric($key))
 					$_SESSION['login_'.$key] = $value;
 			}
 	
-			//$_SESSION['login_type'] = $login;
-			  $_SESSION['login_type'] = $_SESSION['login_user_type'];
-			//$_SESSION['login_view_folder'] = $type2[$login].'/';
-			  $_SESSION['login_view_folder'] = $type2[$_SESSION['login_type']].'/';
+			$_SESSION['login_type'] = $_SESSION['login_user_type'];		
+			$_SESSION['login_view_folder'] = $type2[$_SESSION['login_type']].'/';
 			
-		return 1;
+			return 1;
 		}else{
 			return 2;
 		}
@@ -195,8 +193,9 @@ Class Action {
 	function delete_user(){
 		extract($_POST);
 		$delete = $this->db->query("DELETE FROM users where id = ".$id);
-		if($delete)
-			return 1;
+		if($delete){
+			return 1; // the user deleted successfully
+		}
 	}
 	function save_system_settings(){
 		extract($_POST);

@@ -49,7 +49,7 @@
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label">Knowledge areas</label>
-							<textarea name="knowledge_areas" placeholder="IS, IT, Medical, Math, ..." rows="6" class="form-control form-control-sm"  value="<?php echo isset($lastname) ? $lastname : '' ?>"></textarea>
+							<textarea name="knowledge_areas" placeholder="IS, IT, Medical, Math, ..." rows="6" class="form-control form-control-sm"  value=""><?php echo isset($knowledge_areas) ? $knowledge_areas : '' ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 					$('[name="email"]').addClass("border-danger")
 					end_load()
 				}else{
-					_conf("An error occured, please check all info and try again later.","New admin did't inserted",[$(this).attr('data-id')])
+					_conf("An error occured, please check all info and try again later.","Error",[$(this).attr('data-id')])
 					setTimeout(function(){
 						location.reload()
 					},1500)

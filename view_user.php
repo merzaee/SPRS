@@ -1,10 +1,17 @@
-<?php include '../db_connect.php' ?>
+<?php include 'db_connect.php' ?>
 <?php
 if(isset($_GET['id'])){
 	$qry = $conn->query("SELECT *,concat(firstname,' ',lastname) as name FROM users where id = ".$_GET['id'])->fetch_array();
 foreach($qry as $k => $v){
 	$$k = $v;
-}
+}}
+$user = "Student ";
+if($user_type == 1){
+  $user = "Admin ";
+}elseif($user_type == 2){
+$user = "Reviewer ";
+}else{
+  $user = "Student ";
 }
 ?>
 <div class="container-fluid">
@@ -22,10 +29,12 @@ foreach($qry as $k => $v){
       </div>
       <div class="card-footer">
         <div class="container-fluid">
-        	<dl>
-        		<dt>School ID</dt>
-        		<dd><?php echo $school_id ?></dd>
-        	</dl>
+          <dl>
+            <dt><?php echo $user. ' ID'?></dt>
+            <dd><?php echo $id ?></dd>
+            <dt>Knowledge Areas</dt>
+            <dd><?php echo $knowledge_areas ?></dd>
+          </dl>
         </div>
     </div>
 	</div>

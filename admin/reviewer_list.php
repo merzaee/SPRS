@@ -3,7 +3,7 @@
 	<div class="card card-outline card-success">
 		<div class="card-header">
 			<div class="card-tools">
-				<a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="./index.php?page=new_admin"><i class="fa fa-plus"></i> Add New Admin</a>
+				<a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="./index.php?page=new_reviewer"><i class="fa fa-plus"></i> Add New Reviewer</a>
 			</div>
 		</div>
 		<div class="card-body">
@@ -13,9 +13,9 @@
 						<th class="text-center">#</th>
 						<th>Name</th>
 						<th>Email</th>
-						<th>Knowledge ares</th>
-						<th>Total reviewed</th>
-						<th>Total shared</th>
+						<th>Knowledge areas</th>
+						<th>Total Shared</th>
+						<th>Total Reviewed</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -31,18 +31,16 @@
 						<td><b><?php echo ucwords($row['name']) ?></b></td>
 						<td><b><?php echo $row['email'] ?></b></td>
 						<td><?php echo $row['knowledge_areas'] ?></td>
-						<td><?php echo $row['total_reviewed'] ?></td>
-						<td><?php echo $row['total_shared']?></td>
+						<td><b><?php echo $row['total_shared'].' papers' ?></b></td>
+						<td><b><?php echo $row['email'] ?></b></td>
 						<td class="text-center">
 							<button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 		                      Action
 		                    </button>
-		                    <div class="dropdown-menu" style="">
-							<a class="dropdown-item view_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item view_admin" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
+		                    <div class="dropdown-menu" style="">						
+							<a class="dropdown-item view_reviewer" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View</a>
 		                      <div class="dropdown-divider"></div>
-		                    <a class="dropdown-item" href="./index.php?page=edit_user&id=<?php echo $row['id'] ?>">Edit</a>
+		                    <a class="dropdown-item" href="./index.php?page=edit_reviewer&id=<?php echo $row['id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>
 		                    </div>
@@ -56,11 +54,11 @@
 </div>
 <script>
 	$(document).ready(function(){
-	$('.view_user').click(function(){
-		uni_modal("<i class='fa fa-id-card'></i> User Details","view_user.php?id="+$(this).attr('data-id'))
+	$('.view_reviewer').click(function(){
+		uni_modal("<i class='fa fa-id-card'></i> Reviewer Details","view_user.php?id="+$(this).attr('data-id'))
 	})
 	$('.delete_user').click(function(){
-	_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
+	_conf("Are you sure to delete this admin?","delete_user",[$(this).attr('data-id')])
 	})
 	$('#list').dataTable()
 	})
