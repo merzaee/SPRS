@@ -18,29 +18,38 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th>Code</th>
-						<th>Subject</th>
-						<th>Description</th>
+						<th>Paper</th>
+						<th>Owner</th>
+						<th>Owner comment</th>
+						<th>Reviewer</th>
+						<th>Reviewer comment</th>
+						<th>Status</th>
+						<th>Creation Date</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
 					$i = 1;
-					$qry = $conn->query("SELECT * FROM subject_list order by subject asc ");
+					$qry = $conn->query("SELECT * FROM file_reviews ORDER BY shareID asc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>
-						<th class="text-center"><?php echo $i++ ?></th>
-						<td><b><?php echo $row['code'] ?></b></td>
-						<td><b><?php echo $row['subject'] ?></b></td>
-						<td><b><?php echo $row['description'] ?></b></td>
+						<th class="text-center"><?php echo $i++ ?></th>						
+						<td><b><?php echo $row['Filename'] ?></b></td>
+						<td><b><?php echo $row['owner_fullname'] ?></b></td>
+						<td><b><?php echo $row['firstComment'] ?></b></td>
+						<td><b><?php echo $row['reviewer_fullname'] ?></b></td>
+						<td><b><?php echo $row['comment'] ?></b></td>
+						<td><b><?php echo $row['review_status'] ?></b></td>
+						<td><b><?php echo $row['creationDate'] ?></b></td>
+						
 						<td class="text-center">
 		                    <div class="btn-group">
-		                        <a href="javascript:void(0)" data-id='<?php echo $row['id'] ?>' class="btn btn-primary btn-flat manage_subject">
+		                        <a href="javascript:void(0)" data-id='<?php echo $row['shareID'] ?>' class="btn btn-primary btn-flat manage_subject">
 		                          <i class="fas fa-edit"></i>
 		                        </a>
-		                        <button type="button" class="btn btn-danger btn-flat delete_subject" data-id="<?php echo $row['id'] ?>">
+		                        <button type="button" class="btn btn-danger btn-flat delete_subject" data-id="<?php echo $row['shareID'] ?>">
 		                          <i class="fas fa-trash"></i>
 		                        </button>
 	                      </div>

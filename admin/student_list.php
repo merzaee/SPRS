@@ -22,25 +22,26 @@
 				<tbody>
 					<?php
 					$i = 1;
-					$qry = $conn->query("SELECT
-					users.id,
-					concat( firstname, ' ', lastname ) AS name,
-					users.email,
-					users.PASSWORD,
-					users.avatar,
-					users.date_created,
-					users.STATUS,
-					users.user_type,
-					users.knowledge_areas,
-					COUNT( files.fileID ) AS total_shared
-				FROM
-					users
-					LEFT JOIN files ON users.id = files.userID
-					LEFT JOIN fileshare ON files.fileID = fileshare.fileID 
-				WHERE
-					users.user_type = 3 
-				GROUP BY
-					users.id");
+					$qry = $conn->query("SELECT * FROM review_summary WHERE user_type = 3");
+				// 	$qry = $conn->query("SELECT
+				// 	users.id,
+				// 	concat( firstname, ' ', lastname ) AS name,
+				// 	users.email,
+				// 	users.PASSWORD,
+				// 	users.avatar,
+				// 	users.date_created,
+				// 	users.STATUS,
+				// 	users.user_type,
+				// 	users.knowledge_areas,
+				// 	COUNT( files.fileID ) AS total_shared
+				// FROM
+				// 	users
+				// 	LEFT JOIN files ON users.id = files.userID
+				// 	LEFT JOIN fileshare ON files.fileID = fileshare.fileID 
+				// WHERE
+				// 	users.user_type = 3 
+				// GROUP BY
+				// 	users.id");
 
 					while($row= $qry->fetch_assoc()):
 					?>
@@ -49,8 +50,8 @@
 						<td><b><?php echo ucwords($row['name']) ?></b></td>
 						<td><b><?php echo $row['email'] ?></b></td>
 						<td><?php echo $row['knowledge_areas'] ?></td>
-						<td><b><?php echo $row['total_shared'].' papers' ?></b></td>
-						<td><b><?php echo $row['email'] ?></b></td>
+						<td><b><?php echo $row['total_shared_files'].' papers' ?></b></td>
+						<td><b><?php echo $row['total_reviews'].' papers' ?></b></td>
 						<td class="text-center">
 							<button type="button" class="btn btn-default btn-sm btn-flat border-info wave-effect text-info dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 		                      Action

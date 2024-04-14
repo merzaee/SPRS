@@ -44,7 +44,7 @@ Class Action {
 	}
 	function login2(){
 		extract($_POST);
-			$qry = $this->db->query("SELECT *,concat(lastname,', ',firstname,' ',middlename) as name FROM users where id = '".$student_code."' ");
+			$qry = $this->db->query("SELECT *,concat(lastname,', ',firstname) as name FROM users where id = '".$student_code."' ");
 		if($qry->num_rows > 0){
 			foreach ($qry->fetch_array() as $key => $value) {
 				if($key != 'password' && !is_numeric($key))
@@ -150,7 +150,7 @@ Class Action {
 		extract($_POST);
 		$data = "";
 		$type = 'users';
-	foreach($_POST as $k => $v){
+		foreach($_POST as $k => $v){
 			if(!in_array($k, array('id','cpass','table','password')) && !is_numeric($k)){
 				
 				if(empty($data)){
@@ -162,7 +162,7 @@ Class Action {
 		}
 		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
-			return 2;
+			return 1;
 		
 		}
 		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
@@ -176,7 +176,7 @@ Class Action {
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO users set $data");
 		}else{
-			echo "UPDATE users set $data where id = $id";
+		//	echo "UPDATE users set $data where id = $id";
 			$save = $this->db->query("UPDATE users set $data where id = $id");
 		}
 
@@ -185,8 +185,9 @@ Class Action {
 				if($key != 'password' && !is_numeric($key))
 					$_SESSION['login_'.$key] = $value;
 			}
-			if(isset($_FILES['img']) && !empty($_FILES['img']['tmp_name']))
+			if(isset($_FILES['img']) && !empty($_FILES['img']['tmp_name'])){
 					$_SESSION['login_avatar'] = $fname;
+			}
 			return 1;
 		}
 	}
