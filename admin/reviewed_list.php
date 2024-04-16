@@ -29,7 +29,7 @@
 				<tbody>
 					<?php 
 					$i = 1;
-					$qry = $conn->query("SELECT * FROM paper_review_info WHERE paper_Status = 'In queue' ORDER BY paper_id asc ");
+					$qry = $conn->query("SELECT * FROM paper_review_info WHERE paper_Status = 'reviewed' ORDER BY paper_id asc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>

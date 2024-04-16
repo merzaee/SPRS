@@ -23,13 +23,13 @@
 						<th>Reviewer</th>
 						<th>Score</th>
 						<th>Status</th>						
-
+					
 					</tr>
 				</thead>
 				<tbody>
-					<?php 
+					<?php
 					$i = 1;
-					$qry = $conn->query("SELECT * FROM paper_review_info WHERE paper_Status = 'In queue' ORDER BY paper_id asc ");
+					$qry = $conn->query("SELECT * FROM paper_review_info WHERE paper_Status = 'reviewed' OR 1=1 ORDER BY paper_id asc ");
 					while($row= $qry->fetch_assoc()):
 					?>
 					<tr>
@@ -39,7 +39,7 @@
 						<td><b><?php echo $row['reviewer_name'] ?></b></td>
 						<td><b><?php echo $row['score'] ?></b></td>
 						<td><b><?php echo $row['status'] ?></b></td>
-					
+				
 					</tr>	
 				<?php endwhile; ?>
 				</tbody>

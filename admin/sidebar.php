@@ -46,7 +46,7 @@
           </li> 
 
 		      <li class="nav-item dropdown">
-            <a href="./index.php?page=to_review_list" class="nav-link nav-subject_list">
+            <a href="./index.php?page=to_review_list" class="nav-link nav-to_review_list">
               <i class="nav-icon fas fa-th-list"></i>
               <p>
                 To Review
@@ -54,7 +54,7 @@
             </a>
           </li> 
           <li class="nav-item dropdown">
-            <a href="./index.php?page=to_review" class="nav-link nav-class_list">
+            <a href="./index.php?page=reviewed_list" class="nav-link nav-reviewed_list">
               <i class="nav-icon fas fa-list-alt"></i>
               <p>
                 Reviewed

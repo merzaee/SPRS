@@ -57,7 +57,7 @@ function ordinal_suffix1($num){
                 <p>Total Students</p>
               </div>
               <div class="icon">
-			   <i class="fa ion-ios-people-outline"></i>
+			   <i class="fa ion-ios-people"></i>
                 
               </div>
             </div>
@@ -65,7 +65,7 @@ function ordinal_suffix1($num){
           <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM fileshare")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM shared_paper")->num_rows; ?></h3>
 
                 <p>Total Papers</p>
               </div>
@@ -77,7 +77,7 @@ function ordinal_suffix1($num){
 		   <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM users")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM papers WHERE review_status = 'In queue'")->num_rows; ?></h3>
 
                 <p>Total Pending Papers</p>
               </div>
@@ -89,7 +89,7 @@ function ordinal_suffix1($num){
 		   <div class="col-12 col-sm-6 col-md-4">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM users")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM papers WHERE review_status = 'reviewed'")->num_rows; ?></h3>
 
                 <p>Total Reviewed Papers</p>
               </div>
